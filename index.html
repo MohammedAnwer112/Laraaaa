@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من محمد إلى لارا 🐾</title>
+    <style>
+        :root {
+            --primary-pink: #ff85a2;
+            --soft-pink: #ffeef2;
+            --dark-text: #1a1a1a;
+            --kitty-red: #ff4d6d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--soft-pink);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .bg-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 133, 162, 0.4);
+            animation: floatUp 6s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(255, 133, 162, 0.2);
+            text-align: center;
+            width: 85%;
+            max-width: 380px;
+            border: 4px solid #ffcad4;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .img-container {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .msg-bubble {
+            background: var(--dark-text);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            border: 2px solid var(--primary-pink);
+            line-height: 1.4;
+        }
+
+        .next-btn {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 15px 45px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 133, 162, 0.4);
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .next-btn:hover { transform: scale(1.1); background: #ff6b8e; }
+        .hidden { display: none; }
+
+        .heart-trigger {
+            font-size: 100px;
+            cursor: pointer;
+            animation: beat 1s infinite;
+            display: inline-block;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-hearts" id="hearts-box"></div>
+
+<div id="s1" class="card">
+    <div class="img-container">🐱🎀</div>
+    <div class="msg-bubble">هلو لارا 🐾</div>
+    <button class="next-btn" onclick="show(2)">هلووو</button>
+</div>
+
+<div id="s2" class="card hidden">
+    <div class="img-container">🧐✨</div>
+    <div class="msg-bubble">لارا عندي سؤال الج 🤔</div>
+    <button class="next-btn" onclick="show(3)">شنو هو؟</button>
+</div>
+
+<div id="s3" class="card hidden">
+    <div class="img-container">🙈💖</div>
+    <div class="msg-bubble">بس مستحي اسألج اياه.. 😓</div>
+    <button class="next-btn" onclick="show(4)">اسألني</button>
+</div>
+
+<div id="s4" class="card hidden">
+    <div class="img-container">😠🍒</div>
+    <div class="msg-bubble">تحبين محمد لو لا؟ 😠</div>
+    <button class="next-btn" onclick="show(5)">ها؟ 😳</button>
+</div>
+
+<div id="s5" class="card hidden">
+    <div class="msg-bubble">اذا تحبين محمد دوسي ع القلب</div>
+    <div class="heart-trigger" onclick="show(6)">❤️</div>
+</div>
+
+<div id="s6" class="card hidden">
+    <div class="img-container">😻🌹</div>
+    <div class="msg-bubble">كلشي ولا ضوجتج لارا.. احبج ❤️</div>
+    <button class="next-btn" onclick="alert('وأني هم أحبج يا محمد! ❤️')">أعشقك واحبك 🥺❤️</button>
+</div>
+
+<script>
+    function show(step) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        document.getElementById('s' + step).classList.remove('hidden');
+    }
+
+    const box = document.getElementById('hearts-box');
+    for (let i = 0; i < 20; i++) {
+        let h = document.createElement('div');
+        h.className = 'floating-heart';
+        h.innerHTML = '❤️';
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.animationDelay = Math.random() * 5 + 's';
+        box.appendChild(h);
+    }
+</script>
+
+</body>
+</html>
