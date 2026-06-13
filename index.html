@@ -60,7 +60,7 @@
         }
 
         .img-container {
-            font-size: 80px;
+            font-size: 70px;
             margin-bottom: 20px;
             display: block;
         }
@@ -70,20 +70,20 @@
             color: white;
             padding: 20px;
             border-radius: 20px;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 25px;
             border: 2px solid var(--primary-pink);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .next-btn {
             background: var(--primary-pink);
             color: white;
             border: none;
-            padding: 15px 45px;
+            padding: 12px 40px;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(255, 133, 162, 0.4);
             transition: 0.3s;
@@ -112,67 +112,38 @@
 
 <div id="s1" class="card">
     <div class="img-container">🐱🎀</div>
-    <div class="msg-bubble">هلو لارا 🐾</div>
-    <button class="next-btn" onclick="show(2)">هلووو</button>
+    <div class="msg-bubble">هلو لارا 🐾 جيتج بلعبة جديدة!</div>
+    <button class="next-btn" onclick="show(2)">هلووو نبدأ</button>
 </div>
 
 <div id="s2" class="card hidden">
     <div class="img-container">🧐✨</div>
-    <div class="msg-bubble">لارا عندي سؤال الج 🤔</div>
-    <button class="next-btn" onclick="show(3)">شنو هو؟</button>
+    <div class="msg-bubble">عندي 20 سؤال وفكرة الج، مستعدة تجاوبين بصراحة؟</div>
+    <button class="next-btn" onclick="show(3)">اي مستعدة! 😎</button>
 </div>
 
 <div id="s3" class="card hidden">
     <div class="img-container">🙈💖</div>
-    <div class="msg-bubble">بس مستحي اسألج اياه.. 😓</div>
-    <button class="next-btn" onclick="show(4)">اسألني عادي</button>
+    <div class="msg-bubble">السؤال 1: تدرين أول ما تقعدين من النوم شكد تكونين حلوة؟</div>
+    <button class="next-btn" onclick="show(4)">أدري فدوات 🙈</button>
 </div>
 
 <div id="s4" class="card hidden">
     <div class="img-container">💭⭐</div>
-    <div class="msg-bubble">تدرين اكو شخص يفكر بيج دائماً؟ 🥺</div>
-    <button class="next-btn" onclick="show(5)">منو هذا؟</button>
+    <div class="msg-bubble">السؤال 2: تدرين اكو شخص يومه ما يكمل بدون ما يلمح ضحكتج؟</div>
+    <button class="next-btn" onclick="show(5)">منو هذا؟ 🥺</button>
 </div>
 
 <div id="s5" class="card hidden">
     <div class="img-container">🤫💡</div>
-    <div class="msg-bubble">هذا الشخص قريب منج حيل ومستعد يسوي كلشي علمودج.. 🤍</div>
-    <button class="next-btn" onclick="show(6)">قول منو لا توترني!</button>
+    <div class="msg-bubble">السؤال 3: تتوقعين هذا الشخص قريب منج لو بعيد؟</div>
+    <button class="next-btn" onclick="show(6)">قريب يمكن؟ 👀</button>
 </div>
 
 <div id="s6" class="card hidden">
-    <div class="img-container">😠🍒</div>
-    <div class="msg-bubble">زين.. تحبين محمد لو لا؟ 😠</div>
-    <button class="next-btn" onclick="show(7)">ها؟ 😳</button>
+    <div class="img-container">🥣✨</div>
+    <div class="msg-bubble">السؤال 4: زين تحبين الكاهي والقيمر الصبح لو تحبين النكد؟ 😂</div>
+    <button class="next-btn" onclick="show(7)">الكاهي طبعاً 😂</button>
 </div>
 
-<div id="s7" class="card hidden">
-    <div class="msg-bubble">اذا تحبين محمد وتتمنين يظل وياج، دوسي ع القلب الكبيير</div>
-    <div class="heart-trigger" onclick="show(8)">❤️</div>
-</div>
-
-<div id="s8" class="card hidden">
-    <div class="img-container">😻🌹</div>
-    <div class="msg-bubble">كلشي ولا ضوجتج لارا.. احبج ❤️</div>
-    <button class="next-btn" onclick="alert('وأني هم أحبج يا محمد! ❤️')">أعشقك واحبك 🥺❤️</button>
-</div>
-
-<script>
-    function show(step) {
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        document.getElementById('s' + step).classList.remove('hidden');
-    }
-
-    const box = document.getElementById('hearts-box');
-    for (let i = 0; i < 20; i++) {
-        let h = document.createElement('div');
-        h.className = 'floating-heart';
-        h.innerHTML = '❤️';
-        h.style.left = Math.random() * 100 + 'vw';
-        h.style.animationDelay = Math.random() * 5 + 's';
-        box.appendChild(h);
-    }
-</script>
-
-</body>
-</html>
+<div id="s7" class="card
