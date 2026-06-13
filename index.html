@@ -77,11 +77,18 @@
             line-height: 1.5;
         }
 
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
         .next-btn {
             background: var(--primary-pink);
             color: white;
             border: none;
-            padding: 12px 40px;
+            padding: 12px 35px;
             border-radius: 50px;
             font-size: 1.1rem;
             cursor: pointer;
@@ -91,6 +98,13 @@
         }
 
         .next-btn:hover { transform: scale(1.1); background: #ff6b8e; }
+        
+        .no-btn {
+            background: #a3a3a3;
+            transition: all 0.2s ease;
+        }
+        .no-btn:hover { background: #888; }
+
         .hidden { display: none; }
 
         .heart-trigger {
@@ -112,38 +126,166 @@
 
 <div id="s1" class="card">
     <div class="img-container">🐱🎀</div>
-    <div class="msg-bubble">هلو لارا 🐾 جيتج بلعبة جديدة!</div>
-    <button class="next-btn" onclick="show(2)">هلووو نبدأ</button>
+    <div class="msg-bubble">هلو لارا 🐾 جيتج بلعبة الـ 20 سؤال!</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(2)">هلووو نبدأ</button></div>
 </div>
 
 <div id="s2" class="card hidden">
     <div class="img-container">🧐✨</div>
-    <div class="msg-bubble">عندي 20 سؤال وفكرة الج، مستعدة تجاوبين بصراحة؟</div>
-    <button class="next-btn" onclick="show(3)">اي مستعدة! 😎</button>
+    <div class="msg-bubble">مستعدة تجاوبين بصراحة وبدون غش؟</div>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(3)">اي مستعدة! 😎</button>
+        <button class="next-btn no-btn" onclick="alert('ماكو هروب، لازم تلعبين! 😂'); show(3)">لا 😜</button>
+    </div>
 </div>
 
 <div id="s3" class="card hidden">
     <div class="img-container">🙈💖</div>
     <div class="msg-bubble">السؤال 1: تدرين أول ما تقعدين من النوم شكد تكونين حلوة؟</div>
-    <button class="next-btn" onclick="show(4)">أدري فدوات 🙈</button>
+    <div class="btn-container"><button class="next-btn" onclick="show(4)">أدري فدوات 🙈</button></div>
 </div>
 
 <div id="s4" class="card hidden">
     <div class="img-container">💭⭐</div>
     <div class="msg-bubble">السؤال 2: تدرين اكو شخص يومه ما يكمل بدون ما يلمح ضحكتج؟</div>
-    <button class="next-btn" onclick="show(5)">منو هذا؟ 🥺</button>
+    <div class="btn-container"><button class="next-btn" onclick="show(5)">منو هذا؟ 🥺</button></div>
 </div>
 
 <div id="s5" class="card hidden">
     <div class="img-container">🤫💡</div>
     <div class="msg-bubble">السؤال 3: تتوقعين هذا الشخص قريب منج لو بعيد؟</div>
-    <button class="next-btn" onclick="show(6)">قريب يمكن؟ 👀</button>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(6)">قريب حيل 👀</button>
+        <button class="next-btn" onclick="show(6)">بعيد؟ 🤔</button>
+    </div>
 </div>
 
 <div id="s6" class="card hidden">
     <div class="img-container">🥣✨</div>
     <div class="msg-bubble">السؤال 4: زين تحبين الكاهي والقيمر الصبح لو تحبين النكد؟ 😂</div>
-    <button class="next-btn" onclick="show(7)">الكاهي طبعاً 😂</button>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(7)">الكاهي والقييمر طبعاً 😋</button>
+        <button class="next-btn no-btn" onclick="alert('ليش تحبين النكد عيني؟ 😂'); show(7)">النكد 💀</button>
+    </div>
 </div>
 
-<div id="s7" class="card
+<div id="s7" class="card hidden">
+    <div class="img-container">🫖🌸</div>
+    <div class="msg-bubble">السؤال 5: منو يسوي أطيب شاي بالدنيا كلها؟</div>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(8)">أكيد أني ☕</button>
+        <button class="next-btn" onclick="show(8)">أمي الغالية ❤️</button>
+    </div>
+</div>
+
+<div id="s8" class="card hidden">
+    <div class="img-container">🧸🎈</div>
+    <div class="msg-bubble">السؤال 6: تحبين الهدايا الكبيرة والمفاجئة لو الأشياء البسيطة اللطيفة؟</div>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(9)">المفاجآت الكبيرة 🎁</button>
+        <button class="next-btn" onclick="show(9)">الأشياء البسيطة 🤍</button>
+    </div>
+</div>
+
+<div id="s9" class="card hidden">
+    <div class="img-container">🐾🎀</div>
+    <div class="msg-bubble">السؤال 7: شعورج شنو لو عرفتي إنو هيلو كيتي تغار من لطافتج؟</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(10)">يا عمري هههه 😻</button></div>
+</div>
+
+<div id="s10" class="card hidden">
+    <div class="img-container">⭐🌙</div>
+    <div class="msg-bubble">السؤال 8: بالسماء اكو قمر واحد.. تدرين بالقاع اكو شكد?</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(11)">شكد؟ 🤔</button></div>
+</div>
+
+<div id="s11" class="card hidden">
+    <div class="img-container">👸✨</div>
+    <div class="msg-bubble">بس واحد.. واقف يقرا هذا الكلام حالياً ونازل فيه تعديل 🤍</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(12)">خجلتني حيل 🫠</button></div>
+</div>
+
+<div id="s12" class="card hidden">
+    <div class="img-container">🍬🍭</div>
+    <div class="msg-bubble">السؤال 10: شنو أطيب شي بالكون بالنسبة الج؟</div>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(13)">الحلويات والنوتيلا 🍫</button>
+        <button class="next-btn" onclick="show(13)">الأكل بشكل عام 😂</button>
+    </div>
+</div>
+
+<div id="s13" class="card hidden">
+    <div class="img-container">🍧💖</div>
+    <div class="msg-bubble">جواب خطأ! أطيب شي بالكون هي خدودج وعيونج اللطيفة.</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(14)">اممم طيب وبعدين؟ 😜</button></div>
+</div>
+
+<div id="s14" class="card hidden">
+    <div class="img-container">☁️🌈</div>
+    <div class="msg-bubble">السؤال 12: لو خيروج تسافرين لمكان فوق الغيم لو تظلين يمي؟</div>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(15)">أظل يمك طبعاً 🤍</button>
+        <button class="next-btn" onclick="alert('ماكو غيم، راح تظلين يمي! 😜'); show(15)">أطير فوق الغيم ☁️</button>
+    </div>
+</div>
+
+<div id="s15" class="card hidden">
+    <div class="img-container">⏳🔮</div>
+    <div class="msg-bubble">السؤال 13: وصلنا للأسئلة القوية والاعترافات.. مستعدة؟</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(16)">يلا قول 💥</button></div>
+</div>
+
+<div id="s16" class="card hidden">
+    <div class="img-container">🥺💎</div>
+    <div class="msg-bubble">السؤال 14: تدرين إني أدعي بكل صلاة تظلين بوعيي وبالي دائماً؟</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(17)">فدوة لقلبك 🥺</button></div>
+</div>
+
+<div id="s17" class="card hidden">
+    <div class="img-container">🌸🌾</div>
+    <div class="msg-bubble">السؤال 15: لو زعلت فد يوم.. بكلمة وحدة شلون تراضيني؟</div>
+    <div class="btn-container"><button class="next-btn" onclick="show(18)">بكلمة أحبك وشبكة دافية 🤍</button></div>
+</div>
+
+<div id="s18" class="card hidden">
+    <div class="img-container">😠🍒</div>
+    <div class="msg-bubble">السؤال 16: وصلنا للزبدة.. تحبين محمد لو لا؟ وبدون لف ودوران! 😠</div>
+    <div class="btn-container">
+        <button class="next-btn" onclick="show(19)">اي أحبه 😳❤️</button>
+        <button class="next-btn no-btn" id="disappear-btn" onmouseover="shrinkBtn()">لا 😠</button>
+    </div>
+</div>
+
+<div id="s19" class="card hidden">
+    <div class="msg-bubble">السؤال 17: إذا تحبين محمد وتتمنين يظل وياج للموت، دوسي ع القلب الكبير بسرعة!</div>
+    <div class="btn-container"><div class="heart-trigger" onclick="show(20)">❤️</div></div>
+</div>
+
+<div id="s20" class="card hidden">
+    <div class="img-container">😻🌹</div>
+    <div class="msg-bubble">الخطوة 20: كلشي ولا ضوجتج لارا.. محمد يحبج ويعشقج لآخر نفس ❤️</div>
+    <div class="btn-container"><button class="next-btn" onclick="alert('وأني هم أعشقك يا محمد! ❤️🐾')">أعشقك واحبك 🥺❤️</button></div>
+</div>
+
+<script>
+    function show(step) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        document.getElementById('s' + step).classList.remove('hidden');
+    }
+
+    // تأثير تصغير واختفاء زر "لا" لمنعها من رفض حب محمد 😂
+    let scale = 1;
+    function shrinkBtn() {
+        const btn = document.getElementById('disappear-btn');
+        scale -= 0.25;
+        if (scale <= 0) {
+            btn.style.display = 'none';
+        } else {
+            btn.style.transform = `scale(${scale})`;
+        }
+    }
+
+    const box = document.getElementById('hearts-box');
+    const heartEmojis = ['❤️', '💖', '🐾', '🌸'];
+    for (let i = 0; i < 25; i++) {
+        let h = document.createElement('div
