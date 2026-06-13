@@ -195,19 +195,19 @@
 
 <div id="s10" class="card hidden">
     <div class="img-container">⭐🌙</div>
-    <div class="msg-bubble">السؤال 8: بالسماء اكو قمر واحد.. تدرين بالقاع اكو شكد?</div>
+    <div class="msg-bubble">السؤال 8: بالسماء اكو قمر واحد.. تدرين بالقاع اكو شكد؟</div>
     <div class="btn-container"><button class="next-btn" onclick="show(11)">شكد؟ 🤔</button></div>
 </div>
 
 <div id="s11" class="card hidden">
     <div class="img-container">👸✨</div>
-    <div class="msg-bubble">بس واحد.. واقف يقرا هذا الكلام حالياً ونازل فيه تعديل 🤍</div>
+    <div class="msg-bubble">بس واحد.. واقف يقرا هذا الكلام حالياً 🤍</div>
     <div class="btn-container"><button class="next-btn" onclick="show(12)">خجلتني حيل 🫠</button></div>
 </div>
 
 <div id="s12" class="card hidden">
     <div class="img-container">🍬🍭</div>
-    <div class="msg-bubble">السؤال 10: شنو أطيب شي بالكون بالنسبة الج؟</div>
+    <div class="msg-bubble">السؤال 9: شنو أطيب شي بالكون بالنسبة الج؟</div>
     <div class="btn-container">
         <button class="next-btn" onclick="show(13)">الحلويات والنوتيلا 🍫</button>
         <button class="next-btn" onclick="show(13)">الأكل بشكل عام 😂</button>
@@ -222,7 +222,7 @@
 
 <div id="s14" class="card hidden">
     <div class="img-container">☁️🌈</div>
-    <div class="msg-bubble">السؤال 12: لو خيروج تسافرين لمكان فوق الغيم لو تظلين يمي؟</div>
+    <div class="msg-bubble">السؤال 10: لو خيروج تسافرين لمكان فوق الغيم لو تظلين يمي؟</div>
     <div class="btn-container">
         <button class="next-btn" onclick="show(15)">أظل يمك طبعاً 🤍</button>
         <button class="next-btn" onclick="alert('ماكو غيم، راح تظلين يمي! 😜'); show(15)">أطير فوق الغيم ☁️</button>
@@ -231,25 +231,25 @@
 
 <div id="s15" class="card hidden">
     <div class="img-container">⏳🔮</div>
-    <div class="msg-bubble">السؤال 13: وصلنا للأسئلة القوية والاعترافات.. مستعدة؟</div>
+    <div class="msg-bubble">السؤال 11: وصلنا للأسئلة القوية والاعترافات.. مستعدة؟</div>
     <div class="btn-container"><button class="next-btn" onclick="show(16)">يلا قول 💥</button></div>
 </div>
 
 <div id="s16" class="card hidden">
     <div class="img-container">🥺💎</div>
-    <div class="msg-bubble">السؤال 14: تدرين إني أدعي بكل صلاة تظلين بوعيي وبالي دائماً؟</div>
+    <div class="msg-bubble">السؤال 12: تدرين إني أدعي بكل صلاة تظلين بوعيي وبالي دائماً?</div>
     <div class="btn-container"><button class="next-btn" onclick="show(17)">فدوة لقلبك 🥺</button></div>
 </div>
 
 <div id="s17" class="card hidden">
     <div class="img-container">🌸🌾</div>
-    <div class="msg-bubble">السؤال 15: لو زعلت فد يوم.. بكلمة وحدة شلون تراضيني؟</div>
+    <div class="msg-bubble">السؤال 13: لو زعلت فد يوم.. بكلمة وحدة شلون تراضيني؟</div>
     <div class="btn-container"><button class="next-btn" onclick="show(18)">بكلمة أحبك وشبكة دافية 🤍</button></div>
 </div>
 
 <div id="s18" class="card hidden">
     <div class="img-container">😠🍒</div>
-    <div class="msg-bubble">السؤال 16: وصلنا للزبدة.. تحبين محمد لو لا؟ وبدون لف ودوران! 😠</div>
+    <div class="msg-bubble">السؤال 14: وصلنا للزبدة.. تحبين محمد لو لا؟ وبدون لف ودوران! 😠</div>
     <div class="btn-container">
         <button class="next-btn" onclick="show(19)">اي أحبه 😳❤️</button>
         <button class="next-btn no-btn" id="disappear-btn" onmouseover="shrinkBtn()">لا 😠</button>
@@ -257,7 +257,7 @@
 </div>
 
 <div id="s19" class="card hidden">
-    <div class="msg-bubble">السؤال 17: إذا تحبين محمد وتتمنين يظل وياج للموت، دوسي ع القلب الكبير بسرعة!</div>
+    <div class="msg-bubble">السؤال 15: إذا تحبين محمد وتتمنين يظل وياج للموت، دوسي ع القلب الكبير بسرعة!</div>
     <div class="btn-container"><div class="heart-trigger" onclick="show(20)">❤️</div></div>
 </div>
 
@@ -270,10 +270,12 @@
 <script>
     function show(step) {
         document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        document.getElementById('s' + step).classList.remove('hidden');
+        const target = document.getElementById('s' + step);
+        if (target) {
+            target.classList.remove('hidden');
+        }
     }
 
-    // تأثير تصغير واختفاء زر "لا" لمنعها من رفض حب محمد 😂
     let scale = 1;
     function shrinkBtn() {
         const btn = document.getElementById('disappear-btn');
@@ -288,4 +290,15 @@
     const box = document.getElementById('hearts-box');
     const heartEmojis = ['❤️', '💖', '🐾', '🌸'];
     for (let i = 0; i < 25; i++) {
-        let h = document.createElement('div
+        let h = document.createElement('div');
+        h.className = 'floating-heart';
+        h.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.animationDelay = Math.random() * 5 + 's';
+        h.style.fontSize = (Math.random() * 15 + 15) + 'px';
+        box.appendChild(h);
+    }
+</script>
+
+</body>
+</html>
