@@ -1,219 +1,338 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>من نور إلى سارة 🐾</title>
-    <style>
-        :root {
-            --primary-pink: #ff85a2;
-            --soft-pink: #ffeef2;
-            --dark-text: #1a1a1a;
-            --kitty-red: #ff4d6d;
-        }
+    <title>Lambda Mk1 - Sci-Fi HUD</title>
+    <!-- MediaPipe Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            margin: 0;
-            padding: 0;
+            background-color: #0c000f;
+            color: #ff82ff;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #controls {
+            position: absolute;
+            top: 10px;
+            z-index: 10;
+            background: rgba(120, 0, 90, 0.6);
+            border: 1px solid #ff00ff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        select, button {
+            background: #1c0024;
+            color: #ff82ff;
+            border: 1px solid #ff00ff;
+            padding: 5px 10px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background: var(--soft-pink);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
         }
-
-        .bg-hearts {
-            position: fixed;
+        video { display: none; }
+        canvas {
+            position: absolute;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            top: 0;
-            left: 0;
-        }
-
-        .floating-heart {
-            position: absolute;
-            color: rgba(255, 133, 162, 0.4);
-            animation: floatUp 6s infinite linear;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(255, 133, 162, 0.2);
-            text-align: center;
-            width: 85%;
-            max-width: 380px;
-            border: 4px solid #ffcad4;
-            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10;
-        }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .img-container {
-            font-size: 70px;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .msg-bubble {
-            background: var(--dark-text);
-            color: white;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 25px;
-            border: 2px solid var(--primary-pink);
-            line-height: 1.5;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .next-btn {
-            background: var(--primary-pink);
-            color: white;
-            border: none;
-            padding: 12px 35px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(255, 133, 162, 0.4);
-            transition: 0.3s;
-            font-weight: bold;
-        }
-
-        .next-btn:hover { transform: scale(1.1); background: #ff6b8e; }
-        
-        .no-btn {
-            background: #a3a3a3;
-            transition: all 0.2s ease;
-        }
-
-        .hidden { display: none !important; }
-
-        .heart-trigger {
-            font-size: 100px;
-            cursor: pointer;
-            animation: beat 1s infinite;
-            display: inline-block;
-        }
-
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
 
-<div class="bg-hearts" id="hearts-box"></div>
-
-<!-- 1 -->
-<div id="s1" class="card">
-    <div class="img-container">🐱🎀</div>
-    <div class="msg-bubble">هلو سارة 🐾 جيتج بأسئلة سريعة ولطيفة!</div>
-    <div class="btn-container"><button class="next-btn" onclick="show(2)">نبـدأ ومستعدة عيني ✨</button></div>
-</div>
-
-<!-- 2 -->
-<div id="s2" class="card hidden">
-    <div class="img-container">🧐✨</div>
-    <div class="msg-bubble">تدرين اكو شخص يومه وكولشي بيه ما يكمل بدون ضحكتج ولطافتج؟</div>
-    <div class="btn-container"><button class="next-btn" onclick="show(3)">منو هذا؟ 🥺</button></div>
-</div>
-
-<!-- 3 -->
-<div id="s3" class="card hidden">
-    <div class="img-container">👸✨</div>
-    <div class="msg-bubble">أكيد نور.. وتدرين بالسماء اكو قمر واحد وبالقاع واقف يقرا هالكلام حالياً 🤍</div>
-    <div class="btn-container"><button class="next-btn" onclick="show(4)">خجلتيني حيل 🫠</button></div>
-</div>
-
-<!-- 4 -->
-<div id="s4" class="card hidden">
-    <div class="img-container">☁️🌈</div>
-    <div class="msg-bubble">لو خيروج تسافرين لكل مكان فوق الغيم لو تظلين وياية؟</div>
-    <div class="btn-container">
-        <button class="next-btn" onclick="show(5)">أظل وياج طبعاً 🤍</button>
-        <button class="next-btn" onclick="alert('ماكو غيم، راح تظلين وياية! 😜'); show(5)">أطير فوق الغيم ☁️</button>
+    <div id="controls">
+        <label for="cameraSelect">CAMERA:</label>
+        <select id="cameraSelect"></select>
+        <button id="startBtn">START HUD</button>
     </div>
-</div>
 
-<!-- 5 -->
-<div id="s5" class="card hidden">
-    <div class="img-container">😠🍒</div>
-    <div class="msg-bubble">زين وصلنا للزبدة.. تحبين نور لو لا؟ وبدون لف ودوران! 😠</div>
-    <div class="btn-container">
-        <button class="next-btn" onclick="show(6)">اي أحبج 😳❤️</button>
-        <button class="next-btn no-btn" id="disappear-btn" onmouseover="shrinkBtn()" onclick="shrinkBtn()" ontouchstart="shrinkBtn()">لا 😠</button>
+    <div id="container">
+        <video id="input_video" playsinline></video>
+        <canvas id="output_canvas"></canvas>
     </div>
-</div>
 
-<!-- 6 -->
-<div id="s6" class="card hidden">
-    <div class="msg-bubble">إذا تحبين نور وتتمنين تظلين وياها دائماً، دوسي ع القلب الكبير بسرعة!</div>
-    <div class="btn-container"><div class="heart-trigger" onclick="show(7)">❤️</div></div>
-</div>
+    <script>
+        const videoElement = document.getElementById('input_video');
+        const canvasElement = document.getElementById('output_canvas');
+        const canvasCtx = canvasElement.getContext('2d');
+        const cameraSelect = document.getElementById('cameraSelect');
+        const startBtn = document.getElementById('startBtn');
 
-<!-- 7 -->
-<div id="s7" class="card hidden">
-    <div class="img-container">😻🌹</div>
-    <div class="msg-bubble">كلشي ولا ضوجتج سارة.. نور تحبج وتعزج كولش هواية ❤️</div>
-    <div class="btn-container"><button class="next-btn" onclick="alert('وأني هم أحبج وأعزج نور! ❤️🐾')">يمومة فدوة 🥺❤️</button></div>
-</div>
-
-<script>
-    function show(step) {
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        const target = document.getElementById('s' + step);
-        if (target) {
-            target.classList.remove('hidden');
-        }
-    }
-
-    let scale = 1;
-    function shrinkBtn() {
-        const btn = document.getElementById('disappear-btn');
-        if (!btn) return;
+        let audioCtx = null;
+        let activeCamera = null;
+        let cocoModel = null;
         
-        scale -= 0.3;
-        if (scale <= 0.1) {
-            btn.style.display = 'none';
-        } else {
-            btn.style.transform = 'scale(' + scale + ')';
+        // Tracking states
+        let handLandmarks = [];
+        let faceLandmarks = [];
+        let objectDetections = [];
+        let wasTouching = false;
+        let radarAngle = 0;
+
+        // Colors
+        const PURPLE_GLOW = "#ff82ff";
+        const PURPLE_MAIN = "#dc00b4";
+        const PURPLE_DARK = "rgba(120, 0, 90, 0.5)";
+        const PURPLE_NEON = "#ff00ff";
+        const WHITE = "#ffffff";
+
+        // --- Web Audio API Procedural Synthesizer ---
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
         }
-    }
 
-    const box = document.getElementById('hearts-box');
-    const heartEmojis = ['❤️', '💖', '🐾', '🌸'];
-    for (let i = 0; i < 20; i++) {
-        let h = document.createElement('div');
-        h.className = 'floating-heart';
-        h.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-        h.style.left = Math.random() * 100 + 'vw';
-        h.style.animationDelay = Math.random() * 5 + 's';
-        h.style.fontSize = (Math.random() * 15 + 15) + 'px';
-        box.appendChild(h);
-    }
-</script>
+        function playBinaryBeep(freqs, durations, type = 'sine') {
+            if (!audioCtx) return;
+            let now = audioCtx.currentTime;
+            
+            freqs.forEach((freq, idx) => {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                
+                osc.type = type;
+                if (Array.isArray(freq)) {
+                    osc.frequency.setValueAtTime(freq[0], now);
+                    osc.frequency.exponentialRampToValueAtTime(freq[1], now + durations[idx]);
+                } else {
+                    osc.frequency.setValueAtTime(freq, now);
+                }
 
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + durations[idx]);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + durations[idx]);
+                now += durations[idx];
+            });
+        }
+
+        function playChirp() { playBinaryBeep([[2200, 1400], 2800, 3500], [0.02, 0.015, 0.02], 'triangle'); }
+        function playTouchChime() { playBinaryBeep([1760, 2637, 3520], [0.03, 0.03, 0.06], 'sine'); }
+
+        // --- Camera Enumeration ---
+        async function getCameras() {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            cameraSelect.innerHTML = '';
+            videoDevices.forEach((device, index) => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.text = device.label || `Camera ${index + 1}`;
+                cameraSelect.appendChild(option);
+            });
+        }
+
+        // --- MediaPipe Processors ---
+        const hands = new Hands({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+        });
+        hands.setOptions({ maxNumHands: 2, modelComplexity: 1, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+        hands.onResults(results => { handLandmarks = results.multiHandLandmarks || []; });
+
+        const faceMesh = new FaceMesh({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+        });
+        faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+        faceMesh.onResults(results => { faceLandmarks = results.multiFaceLandmarks ? results.multiFaceLandmarks[0] : null; });
+
+        // Load TensorFlow Object Detection
+        cocoSsd.load().then(model => { cocoModel = model; });
+
+        async function detectObjects() {
+            if (cocoModel && videoElement.readyState === 4) {
+                objectDetections = await cocoModel.detect(videoElement);
+            }
+            setTimeout(detectObjects, 200);
+        }
+
+        // --- HUD Drawing Helpers ---
+        function drawTranslucentBox(ctx, x, y, w, h, fill, stroke) {
+            ctx.fillStyle = fill;
+            ctx.fillRect(x, y, w, h);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, w, h);
+        }
+
+        function renderHUD() {
+            const w = canvasElement.width = window.innerWidth;
+            const h = canvasElement.height = window.innerHeight;
+
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, w, h);
+            
+            // Mirror image rendering for webcam
+            canvasCtx.translate(w, 0);
+            canvasCtx.scale(-1, 1);
+            canvasCtx.drawImage(videoElement, 0, 0, w, h);
+            canvasCtx.restore();
+
+            // 1. System Info Widget (Top Left)
+            drawTranslucentBox(canvasCtx, 20, 20, 190, 60, PURPLE_DARK, PURPLE_GLOW);
+            canvasCtx.fillStyle = PURPLE_GLOW;
+            canvasCtx.font = "12px 'Courier New'";
+            canvasCtx.fillText("OS: ReactOS Web x64", 30, 42);
+            canvasCtx.fillText(`RES: ${w}x${h}`, 30, 62);
+
+            // 2. Radar Scanner (Top Center)
+            radarAngle = (radarAngle + 0.08) % (Math.PI * 2);
+            const rx = w / 2, ry = 50, rRad = 35;
+            canvasCtx.strokeStyle = PURPLE_MAIN;
+            canvasCtx.beginPath();
+            canvasCtx.arc(rx, ry, rRad, 0, Math.PI * 2);
+            canvasCtx.arc(rx, ry, rRad * 0.5, 0, Math.PI * 2);
+            canvasCtx.stroke();
+            canvasCtx.beginPath();
+            canvasCtx.moveTo(rx, ry);
+            canvasCtx.lineTo(rx + rRad * Math.cos(radarAngle), ry + rRad * Math.sin(radarAngle));
+            canvasCtx.strokeStyle = PURPLE_GLOW;
+            canvasCtx.stroke();
+
+            // 3. Audio Spectrum Visualizer (Bottom Center)
+            const numBars = 16, barW = 8;
+            const startX = w / 2 - (numBars * barW) / 2;
+            for (let i = 0; i < numBars; i++) {
+                let barH = Math.sin(Date.now() * 0.005 + i * 0.5) * 15 + 20;
+                canvasCtx.fillStyle = PURPLE_NEON;
+                canvasCtx.fillRect(startX + i * barW, h - 50 - barH, barW - 2, barH);
+            }
+
+            // 4. Helmet & Suit Integration
+            if (faceLandmarks) {
+                const chin = faceLandmarks[152];
+                const forehead = faceLandmarks[10];
+                const headH = Math.abs((chin.y - forehead.y) * h);
+                const chestX = (1 - chin.x) * w;
+                const chestY = chin.y * h + headH * 1.2;
+
+                // Arc Reactor
+                canvasCtx.beginPath();
+                canvasCtx.arc(chestX, chestY, headH * 0.25, 0, Math.PI * 2);
+                canvasCtx.fillStyle = PURPLE_NEON;
+                canvasCtx.fill();
+                canvasCtx.strokeStyle = WHITE;
+                canvasCtx.stroke();
+            }
+
+            // 5. Dual Index Contact Detection
+            let indexTips = [];
+            handLandmarks.forEach(landmarks => {
+                // Draw skeleton
+                canvasCtx.strokeStyle = PURPLE_GLOW;
+                canvasCtx.lineWidth = 2;
+                landmarks.forEach(pt => {
+                    canvasCtx.beginPath();
+                    canvasCtx.arc((1 - pt.x) * w, pt.y * h, 3, 0, Math.PI * 2);
+                    canvasCtx.fillStyle = WHITE;
+                    canvasCtx.fill();
+                });
+                
+                // Index Tip = landmark 8
+                indexTips.push({ x: (1 - landmarks[8].x) * w, y: landmarks[8].y * h });
+            });
+
+            let currentlyTouching = false;
+            if (indexTips.length >= 2) {
+                let dist = Math.hypot(indexTips[0].x - indexTips[1].x, indexTips[0].y - indexTips[1].y);
+                if (dist < 50) {
+                    currentlyTouching = true;
+                    let midX = (indexTips[0].x + indexTips[1].x) / 2;
+                    let midY = (indexTips[0].y + indexTips[1].y) / 2;
+
+                    // Display Name Box
+                    drawTranslucentBox(canvasCtx, midX - 120, midY - 60, 240, 45, PURPLE_DARK, PURPLE_NEON);
+                    canvasCtx.fillStyle = WHITE;
+                    canvasCtx.font = "bold 14px 'Courier New'";
+                    canvasCtx.fillText("Lambda Mohammed Anwer", midX - 100, midY - 33);
+                }
+            }
+
+            if (currentlyTouching && !wasTouching) {
+                playTouchChime();
+            }
+            wasTouching = currentlyTouching;
+
+            // 6. Object Detections
+            objectDetections.forEach(obj => {
+                let [bx, by, bw, bh] = obj.bbox;
+                // Adjust for mirrored video
+                bx = w - bx - bw;
+                drawTranslucentBox(canvasCtx, bx, by, bw, bh, "rgba(120, 0, 90, 0.2)", PURPLE_MAIN);
+                canvasCtx.fillStyle = PURPLE_GLOW;
+                canvasCtx.fillText(`OBJ: ${obj.class.toUpperCase()}`, bx + 5, by + 15);
+            });
+
+            requestAnimationFrame(renderHUD);
+        }
+
+        // --- Processing Loop ---
+        async function processVideo() {
+            if (videoElement.currentTime !== videoElement.lastTime) {
+                videoElement.lastTime = videoElement.currentTime;
+                await hands.send({ image: videoElement });
+                await faceMesh.send({ image: videoElement });
+            }
+            requestAnimationFrame(processVideo);
+        }
+
+        // --- Camera Initialization ---
+        async function startCamera(deviceId) {
+            if (activeCamera) {
+                activeCamera.stop();
+            }
+
+            const constraints = {
+                video: { deviceId: deviceId ? { exact: deviceId } : undefined, width: 1280, height: 720 }
+            };
+
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            videoElement.srcObject = stream;
+            videoElement.play();
+
+            videoElement.onloadeddata = () => {
+                processVideo();
+                detectObjects();
+                renderHUD();
+            };
+        }
+
+        startBtn.addEventListener('click', () => {
+            initAudio();
+            playChirp();
+            startCamera(cameraSelect.value);
+            document.getElementById('controls').style.opacity = '0.3';
+        });
+
+        navigator.mediaDevices.addEventListener('devicechange', getCameras);
+        getCameras();
+    </script>
 </body>
 </html>
